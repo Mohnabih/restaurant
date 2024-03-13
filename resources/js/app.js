@@ -1,1 +1,2 @@
-import './bootstrap';
+import { createApp } from "vue";
+createApp(Welcome).mount("#app");
