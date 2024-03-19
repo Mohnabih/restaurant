@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Menu\CategoryController;
+use App\Http\Controllers\Api\Menu\ItemController;
 use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('register', [UserController::class, 'store']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () {
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
 });
 
-Route::post('register', [UserController::class, 'store']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::prefix('menus')->middleware('auth:sanctum')->group(function () {
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('items', ItemController::class);
+});
