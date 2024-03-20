@@ -57,6 +57,15 @@ class CategoryController extends AppBaseController
         $input = $request->validated();
         $user = Auth::user();
 
+        if (!$menu = $user->menu)
+            return $this->sendResponse(
+                null,
+                'Sorry, please enter the menu first',
+                ApiCode::BAD_REQUEST,
+                0
+            );
+
+        $input['menu_id'] = $menu->id;
         $category = $user->categories()->create($input);
         return $this->sendResponse(
             $category,

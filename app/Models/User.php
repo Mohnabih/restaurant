@@ -5,7 +5,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Menu\Category;
+use App\Models\Menu\Discount;
 use App\Models\Menu\Item;
+use App\Models\Menu\Menu;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -71,5 +73,21 @@ class User extends Authenticatable
     public function items()
     {
         return $this->hasManyThrough(Item::class, Category::class);
+    }
+
+    /**
+     * Get the discounts for the user.
+     */
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
+    /**
+     * Get the menu for the user.
+     */
+    public function menu()
+    {
+        return $this->hasOne(Menu::class);
     }
 }

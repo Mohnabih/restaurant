@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Menu\CategoryController;
+use App\Http\Controllers\Api\Menu\DiscountController;
 use App\Http\Controllers\Api\Menu\ItemController;
+use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Models\Menu\Discount;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +29,8 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function () 
 });
 
 Route::prefix('menus')->middleware('auth:sanctum')->group(function () {
+    Route::post('create', [MenuController::class, 'store']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('items', ItemController::class);
+    Route::apiResource('discounts', DiscountController::class);
 });

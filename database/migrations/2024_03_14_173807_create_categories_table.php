@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('menu_id')->constrained('menus')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->tinyInteger('type');  // 0 => for items, 1 => for subcategories
             $table->string('name')->nullable();

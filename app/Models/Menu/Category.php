@@ -10,12 +10,14 @@ class Category extends Model
 {
     use HasFactory, AvailabilityTrait;
 
+    protected $with = ['discount'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'menu_id',
         'user_id',
         'parent_id',
         'name',
@@ -30,6 +32,7 @@ class Category extends Model
      * @var array
      */
     protected $casts = [
+        'menu_id' => 'integer',
         'user_id' => 'integer',
         'parent_id' => 'integer',
         'name' => 'string',
@@ -61,6 +64,15 @@ class Category extends Model
     }
 
     /**
+     * Get the menu that owns the category.
+     */
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
+
+
+    /**
      * Get the items for the category.
      */
     public function items()
@@ -74,5 +86,13 @@ class Category extends Model
     public function subCategories()
     {
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * Get the category discount.
+     */
+    public function discount()
+    {
+        return $this->morphOne(Discount::class, 'discountable');
     }
 }
